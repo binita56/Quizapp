@@ -5,59 +5,72 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class LoginActivity extends AppCompatActivity {
-    private Button btnLogin,btnSignup;
-    private String username, password;
-    private EditText etUsername, etPassword;
+    private FirebaseAuth auth;
+    private EditText loginEmail,loginPassword;
+    private TextView signupRedirectText;
+    private Button loginButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        btnLogin = findViewById(R.id.btnLogin);
-        etUsername = findViewById(R.id.etUsername);
-        etPassword = findViewById(R.id.etPassword);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        auth = FirebaseAuth.getInstance();
+        loginEmail = findViewById(R.id.login_email);
+        loginPassword = findViewById(R.id.login_password);
+        loginButton = findViewById(R.id.login_button);
+        signupRedirectText = findViewById(R.id.signupRedirectText);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (loginValidation()) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(LoginActivity.this, "Please enter details correctly", Toast.LENGTH_SHORT).show();
+                String email = loginEmail.getText().toString();
+                String pass = loginPassword.getText().toString();
+
+                if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    if (!pass.isEmpty()) {
+                        auth.signInWithEmailAndPassword(email, pass)
+                                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                    @Override
+                                    public void onSuccess(AuthResult authResult) {
+                                        Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        finish();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } else {
+                        loginPassword.setError("Password cannot be empty");
+                    }
+                }else if(email.isEmpty()) {
+                    loginEmail.setError("Email cannot be empty");
+                }else{
+                    loginEmail.setError("Please enter valid email");
                 }
             }
         });
-        btnSignup=findViewById(R.id.btnSignup);
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this,SignupActivity.class);
-                startActivity(i);
-            }
-        });
-
-    }
-
-    //login input field validation
-    private boolean loginValidation() {
-        username = etUsername.getText().toString();
-        password = etPassword.getText().toString();
-        if (username.isEmpty()) {
-            //setting error for validation
-            etUsername.setError("Username cannot be blank");
-            return false;
-        }
-        if (password.isEmpty()) {
-            etPassword.setError("Password cannot be blank");
-            return false;
-        }
-        return true;
+                signupRedirectText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                       startActivity(new Intent(LoginActivity.this,SignupActivity.class));
+                    }
+                });
     }
 }

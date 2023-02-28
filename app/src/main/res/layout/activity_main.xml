@@ -85,16 +85,16 @@
 
     </LinearLayout>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/submit_btn"
-            android:text="Submit"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_below="@id/choices_layout"
-            android:backgroundTint="#4D17AE"
-            android:layout_marginTop="40dp"/>
+    <Button
+        android:id="@+id/submit_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/choices_layout"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#4D17AE"
+        android:text="Submit"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

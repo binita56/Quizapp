@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/MyQuizApplication/app/src/main/res/layout/activity_login.xml" value="0.14666666666666667" />
+        <entry key="..\:/MyQuizApplication/app/src/main/res/drawable/custom_edittext.xml" value="0.1" />
+        <entry key="..\:/MyQuizApplication/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.1" />
+        <entry key="..\:/MyQuizApplication/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1" />
+        <entry key="..\:/MyQuizApplication/app/src/main/res/layout/activity_login.xml" value="0.12598425196850394" />
         <entry key="..\:/MyQuizApplication/app/src/main/res/layout/activity_main.xml" value="0.14666666666666667" />
-        <entry key="..\:/MyQuizApplication/app/src/main/res/layout/activity_signup.xml" value="0.11354166666666667" />
+        <entry key="..\:/MyQuizApplication/app/src/main/res/layout/activity_signup.xml" value="0.1" />
+        <entry key="..\:/MyQuizApplication/app/src/main/res/layout/activity_splash.xml" value="0.16666666666666666" />
       </map>
     </option>
   </component>
